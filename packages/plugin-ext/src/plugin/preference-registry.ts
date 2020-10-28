@@ -31,6 +31,8 @@ import { Configuration, ConfigurationModel } from './preferences/configuration';
 import { WorkspaceExtImpl } from './workspace';
 import cloneDeep = require('lodash.clonedeep');
 
+const prototypePropertyRe = /\b__proto__\b/;
+
 enum ConfigurationTarget {
     Global = 1,
     Workspace = 2,
@@ -238,7 +240,7 @@ export class PreferenceRegistryExtImpl implements PreferenceRegistryExt {
     private readonly OVERRIDE_PROPERTY_PATTERN = new RegExp(this.OVERRIDE_PROPERTY);
 
     private parseConfigurationData(data: { [key: string]: any }): { [key: string]: any } {
-        return Object.keys(data).reduce((result: any, key: string) => {
+        return Object.keys(data).filter(key => !prototypePropertyRe.test(key)).reduce((result: any, key: string) => {
             const parts = key.split('.');
             let branch = result;
 
