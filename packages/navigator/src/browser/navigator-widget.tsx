@@ -229,6 +229,7 @@ export class FileNavigatorWidget extends FileTreeWidget {
      * Instead of displaying an empty navigator tree, this will show a button to add more folders.
      */
     protected renderEmptyMultiRootWorkspace(): React.ReactNode {
+        console.error('!!!!!!!!!!!!!!!!! theia !!! renderEmptyMultiRootWorkspace');
         return <div className='theia-navigator-container'>
             <div className='center'>You have not yet added a folder to the workspace.</div>
             <div className='open-workspace-button-container'>
