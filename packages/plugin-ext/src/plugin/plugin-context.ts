@@ -22,6 +22,7 @@ import { CommandRegistryImpl } from './command-registry';
 import { Emitter } from '@theia/core/lib/common/event';
 import { CancellationTokenSource } from '@theia/core/lib/common/cancellation';
 import { QuickOpenExtImpl } from './quick-open';
+import { ThemingServicePlug } from './theming-service';
 import {
     MAIN_RPC_CONTEXT,
     Plugin as InternalPlugin,
@@ -192,6 +193,7 @@ export function createAPIFactory(
     const decorationsExt = rpc.set(MAIN_RPC_CONTEXT.DECORATIONS_EXT, new DecorationsExtImpl(rpc));
     const labelServiceExt = rpc.set(MAIN_RPC_CONTEXT.LABEL_SERVICE_EXT, new LabelServiceExtImpl(rpc));
     const timelineExt = rpc.set(MAIN_RPC_CONTEXT.TIMELINE_EXT, new TimelineExtImpl(rpc, commandRegistry));
+    const themeService = rpc.set(MAIN_RPC_CONTEXT.THEME_SERVICE_EXT, new ThemingServicePlug(rpc));
     rpc.set(MAIN_RPC_CONTEXT.DEBUG_EXT, debugExt);
 
     return function (plugin: InternalPlugin): typeof theia {
@@ -421,6 +423,9 @@ export function createAPIFactory(
             },
             createInputBox(): theia.InputBox {
                 return quickOpenExt.createInputBox(plugin);
+            },
+            activeColorTheme(): theia.ThemeColor {
+                return themeService.activeColorTheme();
             }
         };
 
