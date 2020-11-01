@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (C) 2018 Red Hat, Inc. and others.
+ * Copyright (C) 2018 TypeFox and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -14,20 +14,20 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import {ThemingService } from '@theia/core/src/browser/theming-service';
-import { ThemingServiceMain } from '../../common/plugin-api-rpc';
-import { RPCProtocol } from '../../common/rpc-protocol';
-import { interfaces } from 'inversify';
+import { injectable } from 'inversify';
+import { Deferred } from '@theia/core/src/common/promise-util';
+import { ThemeService  } from '@theia/core/src/browser/theming';
 
-export class ThemingMainImpl implements ThemingServiceMain {
+@injectable()
+export class ThemingService {
 
-   private themingService: ThemingService;
+    private theming: ThemeService;
 
-   constructor(rpc: RPCProtocol, container: interfaces.Container) {
-       this.themingService = container.get(ThemingService);
-   }
+    getCurrentTheme(): PromiseLike<string | undefined> {
+        const result = new Deferred<string | undefined>();
+        const resolve = (value: string | undefined) => result.resolve(value);
+        resolve(this.theming.getCurrentTheme().id);
 
-   $activeColorTheme(): PromiseLike<string | undefined> {
-    return this.themingService.getCurrentTheme();
-   }
+        return result.promise;
+    }
 }

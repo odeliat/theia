@@ -15,17 +15,16 @@
  ********************************************************************************/
 
 import { ThemingServiceMain, ThemingServiceExt, PLUGIN_RPC_CONTEXT as Ext } from '../common/plugin-api-rpc';
-import * as theia from '@theia/plugin';
 import { RPCProtocol } from '../common/rpc-protocol';
 
-export class ThemingServicePlug implements ThemingServiceExt {
+export class ThemingServiceExtImpl implements ThemingServiceExt {
     private proxy: ThemingServiceMain;
 
     constructor(rpc: RPCProtocol) {
         this.proxy = rpc.getProxy(Ext.THEMING_SERVICE_MAIN);
     }
 
-    activeColorTheme(): theia.ThemeColor {
+    activeColorTheme(): PromiseLike<string | undefined> {
 
         return this.proxy.$activeColorTheme();
     }

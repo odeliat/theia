@@ -52,6 +52,7 @@ import { MainFileSystemEventService } from './main-file-system-event-service';
 import { LabelServiceMainImpl } from '../browser/label-service-main';
 import { TimelineMainImpl } from './timeline-main';
 import { AuthenticationMainImpl } from './authentication-main';
+import { ThemingMainImpl } from './theming-main';
 
 export function setUpPluginApi(rpc: RPCProtocol, container: interfaces.Container): void {
     const authenticationMain = new AuthenticationMainImpl(rpc, container);
@@ -74,6 +75,9 @@ export function setUpPluginApi(rpc: RPCProtocol, container: interfaces.Container
 
     const preferenceRegistryMain = new PreferenceRegistryMainImpl(rpc, container);
     rpc.set(PLUGIN_RPC_CONTEXT.PREFERENCE_REGISTRY_MAIN, preferenceRegistryMain);
+
+    const themingMain = new ThemingMainImpl(rpc, container);
+    rpc.set(PLUGIN_RPC_CONTEXT.THEMING_SERVICE_MAIN, themingMain);
 
     const editorsAndDocuments = new EditorsAndDocumentsMain(rpc, container);
 

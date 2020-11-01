@@ -913,7 +913,7 @@ export interface ThemingServiceExt {
 }
 
 export interface ThemingServiceMain {
-    $activeColorTheme(): theia.ThemeColor;
+    $activeColorTheme(): PromiseLike<string | undefined>;
 }
 
 /**

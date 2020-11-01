@@ -3964,7 +3964,8 @@ declare module '@theia/plugin' {
          */
         export function createInputBox(): InputBox;
 
-        export function activeColorTheme(): ThemeColor;
+        // export function activeColorTheme(): PromiseLike<string | undefined>;
+        export let activeColorTheme: PromiseLike<string | undefined>;
     }
 
     /**
