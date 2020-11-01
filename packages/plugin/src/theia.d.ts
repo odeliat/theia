@@ -3963,6 +3963,12 @@ declare module '@theia/plugin' {
          * @return A new [InputBox](#InputBox).
          */
         export function createInputBox(): InputBox;
+
+        export interface Theme {
+            kind: string
+        }
+
+        export let activeColorTheme: Theme;
     }
 
     /**

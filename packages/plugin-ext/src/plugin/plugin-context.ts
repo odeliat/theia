@@ -421,6 +421,11 @@ export function createAPIFactory(
             },
             createInputBox(): theia.InputBox {
                 return quickOpenExt.createInputBox(plugin);
+            },
+            get activeColorTheme(): theia.window.Theme {
+                return {
+                    kind: 'Odelia'
+                };
             }
         };
 
