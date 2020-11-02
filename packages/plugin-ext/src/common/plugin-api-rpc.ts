@@ -909,11 +909,10 @@ export interface ThemeColor {
 }
 
 export interface ThemingServiceExt {
-
 }
 
 export interface ThemingServiceMain {
-    $activeColorTheme(): PromiseLike<string | undefined>;
+    $activeColorTheme(): string;
 }
 
 /**

@@ -24,7 +24,7 @@ export class ThemingServiceExtImpl implements ThemingServiceExt {
         this.proxy = rpc.getProxy(Ext.THEMING_SERVICE_MAIN);
     }
 
-    activeColorTheme(): PromiseLike<string | undefined> {
+    activeColorTheme(): string {
 
         return this.proxy.$activeColorTheme();
     }

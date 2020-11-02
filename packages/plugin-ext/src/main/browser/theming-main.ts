@@ -14,20 +14,24 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import {ThemingService } from '@theia/core/src/browser/theming-service';
-import { ThemingServiceMain } from '../../common/plugin-api-rpc';
+import { ThemeService  } from '@theia/core/src/browser/theming';
+import { MAIN_RPC_CONTEXT, ThemingServiceMain } from '../../common/plugin-api-rpc';
 import { RPCProtocol } from '../../common/rpc-protocol';
 import { interfaces } from 'inversify';
+import { ThemingServiceExt } from '@theia/plugin-ext/src/common/plugin-api-rpc';
 
 export class ThemingMainImpl implements ThemingServiceMain {
 
-   private themingService: ThemingService;
+   private themingService: ThemeService;
+   private proxy: ThemingServiceExt;
 
    constructor(rpc: RPCProtocol, container: interfaces.Container) {
-       this.themingService = container.get(ThemingService);
-   }
+        this.proxy = rpc.getProxy(MAIN_RPC_CONTEXT.THEME_SERVICE_EXT);
+        console.log(this.proxy);
+        this.themingService = container.get(ThemeService);
+    }
 
-   $activeColorTheme(): PromiseLike<string | undefined> {
-    return this.themingService.getCurrentTheme();
+   $activeColorTheme(): string {
+    return this.themingService.getCurrentTheme().id;
    }
 }

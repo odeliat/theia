@@ -424,8 +424,10 @@ export function createAPIFactory(
             createInputBox(): theia.InputBox {
                 return quickOpenExt.createInputBox(plugin);
             },
-            get activeColorTheme(): PromiseLike<string | undefined> {
-                return themeService.activeColorTheme();
+            get activeColorTheme(): theia.window.Theme {
+                return {
+                    kind: themeService.activeColorTheme()
+                };
             }
         };
 

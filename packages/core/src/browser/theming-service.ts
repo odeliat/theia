@@ -13,21 +13,13 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
+import { ThemeService  } from './theming';
 
-import { injectable } from 'inversify';
-import { Deferred } from '@theia/core/src/common/promise-util';
-import { ThemeService  } from '@theia/core/src/browser/theming';
-
-@injectable()
 export class ThemingService {
 
     private theming: ThemeService;
 
-    getCurrentTheme(): PromiseLike<string | undefined> {
-        const result = new Deferred<string | undefined>();
-        const resolve = (value: string | undefined) => result.resolve(value);
-        resolve(this.theming.getCurrentTheme().id);
-
-        return result.promise;
+    getCurrentTheme(): string {
+        return this.theming.getCurrentTheme().id;
     }
 }

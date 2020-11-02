@@ -64,6 +64,9 @@ export function setUpPluginApi(rpc: RPCProtocol, container: interfaces.Container
     const quickOpenMain = new QuickOpenMainImpl(rpc, container);
     rpc.set(PLUGIN_RPC_CONTEXT.QUICK_OPEN_MAIN, quickOpenMain);
 
+    const themingServiceMain = new ThemingMainImpl(rpc, container);
+    rpc.set(PLUGIN_RPC_CONTEXT.THEMING_SERVICE_MAIN, themingServiceMain);
+
     const workspaceMain = new WorkspaceMainImpl(rpc, container);
     rpc.set(PLUGIN_RPC_CONTEXT.WORKSPACE_MAIN, workspaceMain);
 
@@ -75,9 +78,6 @@ export function setUpPluginApi(rpc: RPCProtocol, container: interfaces.Container
 
     const preferenceRegistryMain = new PreferenceRegistryMainImpl(rpc, container);
     rpc.set(PLUGIN_RPC_CONTEXT.PREFERENCE_REGISTRY_MAIN, preferenceRegistryMain);
-
-    const themingMain = new ThemingMainImpl(rpc, container);
-    rpc.set(PLUGIN_RPC_CONTEXT.THEMING_SERVICE_MAIN, themingMain);
 
     const editorsAndDocuments = new EditorsAndDocumentsMain(rpc, container);
 
