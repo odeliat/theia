@@ -157,6 +157,7 @@ import { WebviewsExtImpl } from './webviews';
 import { ExtHostFileSystemEventService } from './file-system-event-service-ext-impl';
 import { LabelServiceExtImpl } from '../plugin/label-service';
 import { TimelineExtImpl } from './timeline';
+import { ThemingServiceExtImpl } from './theming-service';
 
 export function createAPIFactory(
     rpc: RPCProtocol,
@@ -192,6 +193,7 @@ export function createAPIFactory(
     const decorationsExt = rpc.set(MAIN_RPC_CONTEXT.DECORATIONS_EXT, new DecorationsExtImpl(rpc));
     const labelServiceExt = rpc.set(MAIN_RPC_CONTEXT.LABEL_SERVICE_EXT, new LabelServiceExtImpl(rpc));
     const timelineExt = rpc.set(MAIN_RPC_CONTEXT.TIMELINE_EXT, new TimelineExtImpl(rpc, commandRegistry));
+    const themingService = rpc.set(MAIN_RPC_CONTEXT.THEMING_SERVICE_EXT, new ThemingServiceExtImpl(rpc));
     rpc.set(MAIN_RPC_CONTEXT.DEBUG_EXT, debugExt);
 
     return function (plugin: InternalPlugin): typeof theia {
@@ -423,8 +425,9 @@ export function createAPIFactory(
                 return quickOpenExt.createInputBox(plugin);
             },
             get activeColorTheme(): theia.window.Theme {
+
                 return {
-                    kind: 'Odelia'
+                    kind: themingService.activeColorTheme()
                 };
             }
         };

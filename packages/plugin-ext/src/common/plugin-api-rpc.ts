@@ -908,6 +908,13 @@ export interface ThemeColor {
     id: string;
 }
 
+export interface ThemingServiceExt {
+}
+
+export interface ThemingServiceMain {
+    $activeColorTheme(): PromiseLike<string>
+}
+
 /**
  * Describes the behavior of decorations when typing/editing near their edges.
  */
@@ -1485,7 +1492,8 @@ export const PLUGIN_RPC_CONTEXT = {
     WINDOW_MAIN: createProxyIdentifier<WindowMain>('WindowMain'),
     CLIPBOARD_MAIN: <ProxyIdentifier<ClipboardMain>>createProxyIdentifier<ClipboardMain>('ClipboardMain'),
     LABEL_SERVICE_MAIN: <ProxyIdentifier<LabelServiceMain>>createProxyIdentifier<LabelServiceMain>('LabelServiceMain'),
-    TIMELINE_MAIN: <ProxyIdentifier<TimelineMain>>createProxyIdentifier<TimelineMain>('TimelineMain')
+    TIMELINE_MAIN: <ProxyIdentifier<TimelineMain>>createProxyIdentifier<TimelineMain>('TimelineMain'),
+    THEMING_MAIN: createProxyIdentifier<ThemingServiceMain>('ThemingServiceMain')
 };
 
 export const MAIN_RPC_CONTEXT = {
@@ -1514,7 +1522,8 @@ export const MAIN_RPC_CONTEXT = {
     SCM_EXT: createProxyIdentifier<ScmExt>('ScmExt'),
     DECORATIONS_EXT: createProxyIdentifier<DecorationsExt>('DecorationsExt'),
     LABEL_SERVICE_EXT: createProxyIdentifier<LabelServiceExt>('LabelServiceExt'),
-    TIMELINE_EXT: createProxyIdentifier<TimelineExt>('TimeLineExt')
+    TIMELINE_EXT: createProxyIdentifier<TimelineExt>('TimeLineExt'),
+    THEMING_SERVICE_EXT: createProxyIdentifier<ThemingServiceExt>('ThemingServiceExt')
 };
 
 export interface TasksExt {
