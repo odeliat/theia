@@ -46,6 +46,10 @@ export class PluginExtDeployCommandService implements QuickOpenModel {
      */
     protected isOpen: boolean = false;
 
+    deployPlugin(name: string): void {
+        this.pluginServer.deploy(name);
+    }
+
     deploy(): void {
         const placeholderText = "Plugin's id to deploy.";
 
@@ -65,7 +69,7 @@ export class PluginExtDeployCommandService implements QuickOpenModel {
     public async onType(lookFor: string, acceptor: (items: QuickOpenItem[]) => void): Promise<void> {
         this.items = [];
         if (lookFor || lookFor.length > 0) {
-            this.items.push(new DeployQuickOpenItem(lookFor, this.pluginServer, 'Deploy this plugin'));
+            this.items.push(new DeployQuickOpenItem(lookFor, this, 'Deploy this plugin'));
         }
         acceptor(this.items);
     }
@@ -76,7 +80,7 @@ export class DeployQuickOpenItem extends QuickOpenItem {
 
     constructor(
         protected readonly name: string,
-        protected readonly pluginServer: PluginServer,
+        protected readonly pluginExtDeployCommandService: PluginExtDeployCommandService,
         protected readonly description?: string
     ) {
         super();
@@ -94,7 +98,7 @@ export class DeployQuickOpenItem extends QuickOpenItem {
         if (mode !== QuickOpenMode.OPEN) {
             return false;
         }
-        this.pluginServer.deploy(this.name);
+        this.pluginExtDeployCommandService.deployPlugin(this.name);
         return true;
     }
 
