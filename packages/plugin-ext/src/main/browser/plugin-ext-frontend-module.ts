@@ -32,7 +32,7 @@ import { HostedPluginServer, hostedServicePath, PluginServer, pluginServerJsonRp
 import { ModalNotification } from './dialogs/modal-notification';
 import { PluginWidget } from './plugin-ext-widget';
 import { PluginFrontendViewContribution } from './plugin-frontend-view-contribution';
-import { PluginExtDeployCommandService } from './plugin-ext-deploy-command';
+import { PluginExtDeployCommandService, PluginExtDeployCommandServiceAddOn } from './plugin-ext-deploy-command';
 import { EditorModelService } from './text-editor-model-service';
 import { UntitledResourceResolver } from './editor/untitled-resource';
 import { CodeEditorWidgetUtil, MenusContributionPointHandler } from './menus/menus-contribution-handler';
@@ -121,6 +121,10 @@ export default new ContainerModule((bind, unbind, isBound, rebind) => {
     }));
 
     bind(PluginExtDeployCommandService).toSelf().inSingletonScope();
+    rebind(PluginExtDeployCommandService)
+        .to(PluginExtDeployCommandServiceAddOn)
+        .inSingletonScope();
+
     bind(PluginServer).toDynamicValue(ctx => {
         const provider = ctx.container.get(WebSocketConnectionProvider);
         return provider.createProxy<PluginServer>(pluginServerJsonRpcPath);

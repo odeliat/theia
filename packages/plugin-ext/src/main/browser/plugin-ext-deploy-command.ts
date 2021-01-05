@@ -103,3 +103,15 @@ export class DeployQuickOpenItem extends QuickOpenItem {
     }
 
 }
+
+@injectable()
+export class PluginExtDeployCommandServiceAddOn extends PluginExtDeployCommandService {
+    constructor() {
+        super();
+    }
+
+    deployPlugin = (name: string) => {
+        console.log('activate injectable method');
+        super.deployPlugin(name);
+    };
+}
