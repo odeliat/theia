@@ -46,10 +46,6 @@ export class PluginExtDeployCommandService implements QuickOpenModel {
      */
     protected isOpen: boolean = false;
 
-    deployPlugin(name: string): void {
-        this.pluginServer.deploy(name);
-    }
-
     deploy(): void {
         const placeholderText = "Plugin's id to deploy.";
 
@@ -69,9 +65,13 @@ export class PluginExtDeployCommandService implements QuickOpenModel {
     public async onType(lookFor: string, acceptor: (items: QuickOpenItem[]) => void): Promise<void> {
         this.items = [];
         if (lookFor || lookFor.length > 0) {
-            this.items.push(new DeployQuickOpenItem(lookFor, this, 'Deploy this plugin'));
+            this.items.push(this.createDeployQuickOpenItem(lookFor, 'Deploy this plugin'));
         }
         acceptor(this.items);
+    }
+
+    protected createDeployQuickOpenItem(name: string, description: string): DeployQuickOpenItem {
+        return new DeployQuickOpenItem(name, this.pluginServer, description);
     }
 
 }
@@ -80,7 +80,7 @@ export class DeployQuickOpenItem extends QuickOpenItem {
 
     constructor(
         protected readonly name: string,
-        protected readonly pluginExtDeployCommandService: PluginExtDeployCommandService,
+        protected readonly pluginServer: PluginServer,
         protected readonly description?: string
     ) {
         super();
@@ -98,10 +98,37 @@ export class DeployQuickOpenItem extends QuickOpenItem {
         if (mode !== QuickOpenMode.OPEN) {
             return false;
         }
-        this.pluginExtDeployCommandService.deployPlugin(this.name);
+        this.pluginServer.deploy(this.name);
         return true;
     }
 
+}
+
+export class DeployQuickOpenItemAddOn extends DeployQuickOpenItem {
+    constructor(
+        protected readonly name: string,
+        protected readonly pluginServer: PluginServer,
+        protected readonly description?: string
+    ) {
+        super(name, pluginServer, description);
+    }
+
+    getLabel(): string {
+        return this.name;
+    }
+
+    getDetail(): string {
+        return this.description || '';
+    }
+
+    run(mode: QuickOpenMode): boolean {
+        if (mode !== QuickOpenMode.OPEN) {
+            return false;
+        }
+        console.log('activate injectable method');
+        this.pluginServer.deploy(this.name);
+        return true;
+    }
 }
 
 @injectable()
@@ -110,8 +137,7 @@ export class PluginExtDeployCommandServiceAddOn extends PluginExtDeployCommandSe
         super();
     }
 
-    deployPlugin = (name: string) => {
-        console.log('activate injectable method');
-        super.deployPlugin(name);
-    };
+    protected createDeployQuickOpenItem(name: string, description: string): DeployQuickOpenItem {
+        return new DeployQuickOpenItemAddOn(name, this.pluginServer, description);
+    }
 }
