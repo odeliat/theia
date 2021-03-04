@@ -2781,7 +2781,7 @@ declare module '@theia/plugin' {
         /**
          * Current working directory.
          */
-        cwd?: string;
+        cwd?: string | URI;
 
         /**
          * Environment variables for terminal in format key - value.
@@ -5144,6 +5144,22 @@ declare module '@theia/plugin' {
          * @readonly
          */
         export let workspaceFolders: WorkspaceFolder[] | undefined;
+
+        /**
+         * The location of the workspace file, for example:
+         *
+         * `file:///Users/name/Development/myProject.code-workspace`
+         *
+         * Depending on the workspace that is opened, the value will be:
+         *  * `undefined` when no workspace or a single folder is opened
+         *  * the path of the workspace file as `Uri` otherwise.
+         *
+         * **Note:** it is not advised to use `workspace.workspaceFile` to write
+         * configuration data into the file.
+         * 
+         * @readonly
+         */
+        export const workspaceFile: Uri | undefined;
 
         /**
          * The name of the workspace. `undefined` when no folder
